@@ -52,6 +52,7 @@ const App = () => {
     {
       id: 8,
       btn: "-",
+      icon:"−",
       bgcolor: "bg-[#FF445A]",
       white: true
     },
@@ -76,6 +77,7 @@ const App = () => {
     {
       id: 12,
       btn: "/",
+      icon:"÷",
       bgcolor: "bg-[#2388FF]",
       white: true
     },
@@ -100,6 +102,7 @@ const App = () => {
     {
       id: 16,
       btn: "*",
+      icon:"×",
       bgcolor: "bg-[#FFC804]",
       white: true
     },
@@ -127,8 +130,10 @@ const App = () => {
       bgcolor: "bg-[#63DE77]",
       white: true
     }]
-  const handleClick = (btn) => {
-    try {
+
+
+    const handleClick = (btn) => {
+      try {
       if(btn==="C"||btn==="CE"){
         setNum("")
      }else if(btn==='⌫'){
@@ -138,7 +143,7 @@ const App = () => {
        if(num){
          const rs = { eval }
        const result = rs.eval(num)
-       setNum(result)
+       setNum(String(result))
        }
      }else{
        setNum(num+btn)
@@ -154,33 +159,38 @@ const App = () => {
     const regex = /^[0-9+\-*/.]+$/
     if (regex.test(val)) {
       setNum(val)
-      console.log(num)
+      // console.log(num)
     }
-    console.log(e.key, val)
+    // console.log(e.key, val)
   }
+
+  
+
   const handleKey = (e) => {
     // console.log(e.key)
     if (e.key === "Enter") {
       const math = { eval }
       const result = math.eval(num)
-      setNum(result)
+      setNum(amountSeprator(result))
       // console.log(result)
     }
   }
+
+  
   return (
     <div className='w-full h-screen flex justify-center items-center bg-[#F5F7FF]'>
 
       <div className='w-[300px] bg-[#FFFFFF] shadow-xl py-4 px-4 rounded-2xl flex flex-col items-center' >
         <input
-          className='bg-[#2388FF] text-[#FFFFFF] outline-none rounded-full px-3 py-2 text-2xl
-         font-bold w-[260px] text-right'
+          className='bg-[#2388FF] text-[#FFFFFF] outline-none rounded-full pr-3 py-3 text-xl
+         font-bold w-[260px] text-right overflow-hidden text-ellipsis rtl shadow-md'
           value={num}
           onInput={(e) => handleChange(e)}
           onKeyDown={(e) => handleKey(e)}
           type="text" placeholder='0' />
 
         <ul className=' grid grid-cols-4 w-full h-3/4 mt-10 gap-4 '>
-          {symb && symb.map(({ id, bgcolor, btn, white }) => (
+          {symb && symb.map(({ id, bgcolor, btn, white, icon }) => (
             <li
               key={id}
               onClick={() => handleClick(btn)}
@@ -188,7 +198,7 @@ const App = () => {
                font-bold text-2xl  cursor-pointer flex justify-center items-center shadow-lg select-none 
                 transition duration-200 ease-in-out transform  active:scale-95`}
             >
-              {btn}</li>
+              {icon?icon:btn}</li>
           ))}
         </ul>
       </div>
